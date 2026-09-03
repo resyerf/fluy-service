@@ -37,6 +37,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<Notification> Notifications => Set<Notification>();
 
+    public DbSet<Document> Documents => Set<Document>();
+    public DbSet<AuditEvent> AuditEvents => Set<AuditEvent>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Schema explícito (CODE.md §10-D15): "tenant" para simetría con el schema "platform" de

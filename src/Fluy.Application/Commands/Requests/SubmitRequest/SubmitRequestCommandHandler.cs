@@ -16,8 +16,10 @@ public class SubmitRequestCommandHandler(
     IWorkflowVersionRepository workflowVersions,
     INotificationRecipientResolver notificationRecipients,
     INotificationRepository notifications,
+    IAuditEventRepository auditEvents,
     IUnitOfWork unitOfWork,
     ICurrentTenantService currentTenant,
+    ICurrentUserService currentUser,
     IDateTime dateTime)
     : ICommandHandler<SubmitRequestCommand, SubmitRequestResult>
 {
@@ -29,6 +31,7 @@ public class SubmitRequestCommandHandler(
             ?? throw new RequestNotFoundException(command.RequestId);
 
         var now = dateTime.UtcNow;
+        var previousState = request.Status.ToString();
 
         try
         {
@@ -38,6 +41,11 @@ public class SubmitRequestCommandHandler(
         {
             throw new InvalidRequestStateException(ex.Message);
         }
+
+        auditEvents.Add(AuditEvent.Create(
+            tenantId, request.RequesterId, "request.submitted", nameof(Request), request.Id, now,
+            previousState: previousState, newState: request.Status.ToString(),
+            ipAddress: currentUser.IpAddress, correlationId: currentUser.CorrelationId));
 
         // Un reenvío tras corrección deja atrás cualquier instancia previa del workflow para esta
         // Request (CODE.md §9.20) — el reenvío siempre arranca desde el paso inicial, no retoma

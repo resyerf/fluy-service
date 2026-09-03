@@ -52,12 +52,17 @@ public static class DependencyInjection
         services.AddScoped<IWorkflowVersionRepository, WorkflowVersionRepository>();
         services.AddScoped<IWorkflowDefinitionRepository, WorkflowDefinitionRepository>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
+        services.AddScoped<IAuditEventRepository, AuditEventRepository>();
+        services.AddScoped<IDocumentStorage, LocalDiskDocumentStorage>();
+        services.Configure<DocumentStorageOptions>(configuration.GetSection(DocumentStorageOptions.SectionName));
 
         // Lectura de solo consulta del schema "platform" (CODE.md §9.4) — nunca gestiona migraciones.
         services.AddDbContext<PlatformReadDbContext>(options => options.UseNpgsql(connectionString));
         services.AddMemoryCache();
         services.AddScoped<ITenantDirectory, TenantDirectory>();
         services.AddScoped<IEntitlementReader, EntitlementReader>();
+        services.AddScoped<IUsageTracker, UsageTracker>();
 
         services.AddScoped<ICurrentTenantService, CurrentTenantService>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();

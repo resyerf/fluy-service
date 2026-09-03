@@ -7,7 +7,8 @@ using Fluy.SharedKernel.Dispatching;
 namespace Fluy.Application.Commands.Workflows.CreateWorkflowDefinition;
 
 public class CreateWorkflowDefinitionCommandHandler(
-    IWorkflowDefinitionRepository definitions, IWorkflowVersionRepository versions, IUnitOfWork unitOfWork, ICurrentTenantService currentTenant)
+    IWorkflowDefinitionRepository definitions, IWorkflowVersionRepository versions, IUnitOfWork unitOfWork,
+    ICurrentTenantService currentTenant, IUsageTracker usageTracker)
     : ICommandHandler<CreateWorkflowDefinitionCommand, CreateWorkflowDefinitionResult>
 {
     public async Task<CreateWorkflowDefinitionResult> Handle(CreateWorkflowDefinitionCommand command, CancellationToken cancellationToken)
@@ -21,6 +22,7 @@ public class CreateWorkflowDefinitionCommandHandler(
         versions.Add(version);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
+        await usageTracker.IncrementAsync(tenantId, "max.workflows", 1, cancellationToken);
 
         return new CreateWorkflowDefinitionResult(definition.Id, version.Id);
     }

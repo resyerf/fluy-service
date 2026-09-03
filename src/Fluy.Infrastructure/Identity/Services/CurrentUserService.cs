@@ -10,10 +10,18 @@ public class CurrentUserService : ICurrentUserService
 {
     public Guid? UserId { get; private set; }
     public IReadOnlyCollection<string> Roles { get; private set; } = [];
+    public string CorrelationId { get; private set; } = Guid.NewGuid().ToString();
+    public string? IpAddress { get; private set; }
 
     public void SetUser(Guid userId, IEnumerable<string> roles)
     {
         UserId = userId;
         Roles = roles.ToList();
+    }
+
+    public void SetRequestContext(string correlationId, string? ipAddress)
+    {
+        CorrelationId = correlationId;
+        IpAddress = ipAddress;
     }
 }

@@ -12,6 +12,8 @@ public class CurrentUserMiddleware(RequestDelegate next)
 {
     public async Task InvokeAsync(HttpContext context, ICurrentUserService currentUser)
     {
+        currentUser.SetRequestContext(context.TraceIdentifier, context.Connection.RemoteIpAddress?.ToString());
+
         if (context.User.Identity?.IsAuthenticated == true)
         {
             var userIdClaim = context.User.FindFirst(JwtRegisteredClaimNames.Sub) ?? context.User.FindFirst(ClaimTypes.NameIdentifier);

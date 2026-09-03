@@ -14,6 +14,7 @@ public class RequestCorrectionCommandHandler(
     IRequestRepository requests,
     INotificationRepository notifications,
     IApprovalAuthorizationService approvalAuthorization,
+    IAuditEventRepository auditEvents,
     IUnitOfWork unitOfWork,
     ICurrentUserService currentUser,
     IDateTime dateTime)
@@ -31,6 +32,7 @@ public class RequestCorrectionCommandHandler(
         await approvalAuthorization.EnsureCanDecideAsync(approval, userId, cancellationToken);
 
         var now = dateTime.UtcNow;
+        var previousState = request.Status.ToString();
 
         approval.ReturnForCorrection(userId, command.Comment, now);
         request.ReturnForCorrection();
@@ -39,6 +41,11 @@ public class RequestCorrectionCommandHandler(
             request.TenantId, request.RequesterId, NotificationType.RequestReturnedForCorrection,
             title: "Tu solicitud requiere corrección", message: command.Comment,
             actorUserId: userId, requestId: request.Id));
+
+        auditEvents.Add(AuditEvent.Create(
+            request.TenantId, userId, "request.correction_requested", nameof(Request), request.Id, now,
+            previousState: previousState, newState: request.Status.ToString(), comment: command.Comment,
+            ipAddress: currentUser.IpAddress, correlationId: currentUser.CorrelationId));
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

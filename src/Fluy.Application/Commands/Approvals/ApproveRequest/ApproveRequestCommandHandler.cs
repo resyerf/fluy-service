@@ -17,6 +17,7 @@ public class ApproveRequestCommandHandler(
     INotificationRepository notifications,
     INotificationRecipientResolver notificationRecipients,
     IApprovalAuthorizationService approvalAuthorization,
+    IAuditEventRepository auditEvents,
     IUnitOfWork unitOfWork,
     ICurrentTenantService currentTenant,
     ICurrentUserService currentUser,
@@ -35,6 +36,7 @@ public class ApproveRequestCommandHandler(
         await approvalAuthorization.EnsureCanDecideAsync(approval, userId, cancellationToken);
 
         var now = dateTime.UtcNow;
+        var previousState = request.Status.ToString();
         approval.Approve(userId, command.Comment, now);
 
         if (approval.WorkflowInstanceId is not null)
@@ -50,6 +52,11 @@ public class ApproveRequestCommandHandler(
             request.Complete();
             NotifyRequester(request, userId, NotificationType.RequestApproved, "Tu solicitud fue aprobada");
         }
+
+        auditEvents.Add(AuditEvent.Create(
+            request.TenantId, userId, "request.approved", nameof(Request), request.Id, now,
+            previousState: previousState, newState: request.Status.ToString(), comment: command.Comment,
+            ipAddress: currentUser.IpAddress, correlationId: currentUser.CorrelationId));
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

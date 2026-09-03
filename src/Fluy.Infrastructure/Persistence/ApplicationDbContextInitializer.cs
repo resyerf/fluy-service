@@ -30,7 +30,9 @@ public class ApplicationDbContextInitializer(
         ("roles.manage", "Administrar roles y permisos"),
         ("audit.view", "Consultar auditoría"),
         ("billing.view", "Consultar facturación"),
-        ("subscription.manage", "Administrar la suscripción del tenant")
+        ("subscription.manage", "Administrar la suscripción del tenant"),
+        ("document.upload", "Adjuntar documentos a una solicitud"),
+        ("document.view", "Consultar documentos adjuntos")
     ];
 
     public async Task InitialiseAsync(CancellationToken cancellationToken = default)

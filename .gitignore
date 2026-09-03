@@ -67,3 +67,6 @@ run.log
 # OS files
 .DS_Store
 Thumbs.db
+
+# Documentos subidos localmente (LocalDiskDocumentStorage, CODE.md §9.27 / §4.18-D08)
+App_Data/

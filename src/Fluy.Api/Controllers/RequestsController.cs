@@ -1,6 +1,7 @@
 using Fluy.Application.Common.Exceptions;
 using Fluy.Application.Commands.Requests.CreateRequest;
 using Fluy.Application.DTOs;
+using Fluy.Application.Queries.Audit.GetAuditTrailForRequest;
 using Fluy.Application.Queries.Requests.GetMyRequests;
 using Fluy.Application.Queries.Requests.GetRequestById;
 using Fluy.Application.Commands.Requests.SubmitRequest;
@@ -71,5 +72,12 @@ public class RequestsController(ISender sender) : ControllerBase
         {
             return NotFound(new { detail = ex.Message });
         }
+    }
+
+    [HttpGet("{id:guid}/audit")]
+    public async Task<ActionResult<IReadOnlyCollection<AuditEventDetail>>> GetAuditTrail(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(new GetAuditTrailForRequestQuery(id), cancellationToken);
+        return Ok(result);
     }
 }

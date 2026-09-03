@@ -1,6 +1,7 @@
 using Fluy.Application.DTOs;
 using Fluy.Application.Interfaces.Services;
 using Fluy.Application.Commands.Identity.BootstrapTenant;
+using Fluy.Application.Commands.Identity.SeedDemoTenantData;
 using Fluy.SharedKernel.Dispatching;
 using Microsoft.AspNetCore.Mvc;
 using Fluy.Api.Models.Requests;
@@ -24,6 +25,17 @@ public class InternalProvisioningController(ISender sender, ICurrentTenantServic
 
         var result = await sender.Send(
             new BootstrapTenantCommand(request.MasterEmail, request.MasterFullName), cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>Llamado por DemoTenantSeeder (fluy-admin-service) solo en Development, justo después de Bootstrap.</summary>
+    [HttpPost("tenants/{tenantId:guid}/seed-demo-data")]
+    public async Task<ActionResult<SeedDemoTenantDataResult>> SeedDemoData(Guid tenantId, CancellationToken cancellationToken)
+    {
+        currentTenant.SetTenant(tenantId);
+
+        var result = await sender.Send(new SeedDemoTenantDataCommand(), cancellationToken);
 
         return Ok(result);
     }
