@@ -1,15 +1,17 @@
 using Fluy.Application.Common.Exceptions;
-using Fluy.Application.Workflows.AddWorkflowStep;
-using Fluy.Application.Workflows.AddWorkflowTransition;
-using Fluy.Application.Workflows.ArchiveWorkflowDefinition;
-using Fluy.Application.Workflows.CreateWorkflowDefinition;
-using Fluy.Application.Workflows.GetWorkflowDefinitions;
-using Fluy.Application.Workflows.GetWorkflowVersionDetail;
-using Fluy.Application.Workflows.PublishWorkflowVersion;
-using Fluy.Application.Workflows.SetInitialStep;
+using Fluy.Application.Commands.Workflows.AddWorkflowStep;
+using Fluy.Application.DTOs;
+using Fluy.Application.Commands.Workflows.AddWorkflowTransition;
+using Fluy.Application.Commands.Workflows.ArchiveWorkflowDefinition;
+using Fluy.Application.Commands.Workflows.CreateWorkflowDefinition;
+using Fluy.Application.Queries.Workflows.GetWorkflowDefinitions;
+using Fluy.Application.Queries.Workflows.GetWorkflowVersionDetail;
+using Fluy.Application.Commands.Workflows.PublishWorkflowVersion;
+using Fluy.Application.Commands.Workflows.SetInitialStep;
 using Fluy.SharedKernel.Dispatching;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Fluy.Api.Models.Requests;
 
 namespace Fluy.Api.Controllers;
 
@@ -19,13 +21,6 @@ namespace Fluy.Api.Controllers;
 [Authorize]
 public class WorkflowsController(ISender sender) : ControllerBase
 {
-    public record CreateWorkflowDefinitionBody(string Name, string Description);
-    public record AddWorkflowStepBody(string Name, Guid ApproverRoleId);
-
-    public record AddWorkflowTransitionBody(
-        Guid FromStepId, Guid? ToStepId, string? ConditionField, string? ConditionOperator, decimal? ConditionValue, int Order);
-
-    public record SetInitialStepBody(Guid StepId);
 
     [HttpGet]
     public async Task<ActionResult<IReadOnlyCollection<WorkflowDefinitionSummary>>> GetAll(CancellationToken cancellationToken)

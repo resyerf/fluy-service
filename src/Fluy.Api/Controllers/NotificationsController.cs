@@ -1,8 +1,9 @@
 using Fluy.Application.Common.Exceptions;
-using Fluy.Application.Notifications.ArchiveNotification;
-using Fluy.Application.Notifications.GetMyNotifications;
-using Fluy.Application.Notifications.MarkAllNotificationsRead;
-using Fluy.Application.Notifications.MarkNotificationRead;
+using Fluy.Application.Commands.Notifications.ArchiveNotification;
+using Fluy.Application.Queries.Notifications.GetMyNotifications;
+using Fluy.Application.DTOs;
+using Fluy.Application.Commands.Notifications.MarkAllNotificationsRead;
+using Fluy.Application.Commands.Notifications.MarkNotificationRead;
 using Fluy.SharedKernel.Dispatching;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

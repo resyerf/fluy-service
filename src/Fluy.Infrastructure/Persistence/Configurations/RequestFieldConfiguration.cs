@@ -1,4 +1,4 @@
-using Fluy.Domain.Requests;
+using Fluy.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,9 +1,11 @@
 using Fluy.Application.Common.Exceptions;
-using Fluy.Application.Rules.GetApprovalRule;
-using Fluy.Application.Rules.SetApprovalRule;
+using Fluy.Application.DTOs;
+using Fluy.Application.Queries.Rules.GetApprovalRule;
+using Fluy.Application.Commands.Rules.SetApprovalRule;
 using Fluy.SharedKernel.Dispatching;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Fluy.Api.Models.Requests;
 
 namespace Fluy.Api.Controllers;
 
@@ -13,7 +15,6 @@ namespace Fluy.Api.Controllers;
 [Authorize]
 public class RulesController(ISender sender) : ControllerBase
 {
-    public record SetApprovalRuleBody(decimal MinAmount, Guid SecondApproverRoleId);
 
     [HttpGet("approval")]
     public async Task<ActionResult<ApprovalRuleDetail?>> GetApprovalRule(CancellationToken cancellationToken)

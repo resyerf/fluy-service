@@ -1,7 +1,9 @@
-using Fluy.Application.Common.Interfaces;
-using Fluy.Application.Identity.BootstrapTenant;
+using Fluy.Application.DTOs;
+using Fluy.Application.Interfaces.Services;
+using Fluy.Application.Commands.Identity.BootstrapTenant;
 using Fluy.SharedKernel.Dispatching;
 using Microsoft.AspNetCore.Mvc;
+using Fluy.Api.Models.Requests;
 
 namespace Fluy.Api.Controllers;
 
@@ -13,7 +15,6 @@ namespace Fluy.Api.Controllers;
 [Route("api/internal/provisioning")]
 public class InternalProvisioningController(ISender sender, ICurrentTenantService currentTenant) : ControllerBase
 {
-    public record BootstrapRequest(string MasterEmail, string MasterFullName);
 
     [HttpPost("tenants/{tenantId:guid}/bootstrap")]
     public async Task<ActionResult<BootstrapTenantResult>> Bootstrap(

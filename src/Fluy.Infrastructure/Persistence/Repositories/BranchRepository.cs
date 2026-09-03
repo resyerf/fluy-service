@@ -1,9 +1,8 @@
-using Fluy.Application.Common.Interfaces.Repositories;
-using Fluy.Application.Identity.GetMyBranches;
-using Fluy.Application.Organization.GetAllBranches;
-using Fluy.Application.Organization.GetBranchesByCompany;
-using Fluy.Domain.Tenancy;
+using Fluy.Application.Interfaces.Repositories;
+using Fluy.Application.DTOs;
+using Fluy.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Fluy.Infrastructure.Persistence.Context;
 
 namespace Fluy.Infrastructure.Persistence.Repositories;
 

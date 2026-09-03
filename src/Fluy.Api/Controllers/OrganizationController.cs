@@ -1,14 +1,16 @@
 using Fluy.Application.Common.Exceptions;
-using Fluy.Application.Organization.CreateBranch;
-using Fluy.Application.Organization.CreateCompany;
-using Fluy.Application.Organization.CreateDepartment;
-using Fluy.Application.Organization.GetAllBranches;
-using Fluy.Application.Organization.GetBranchesByCompany;
-using Fluy.Application.Organization.GetCompanies;
-using Fluy.Application.Organization.GetDepartmentsByBranch;
+using Fluy.Application.Commands.Organization.CreateBranch;
+using Fluy.Application.DTOs;
+using Fluy.Application.Commands.Organization.CreateCompany;
+using Fluy.Application.Commands.Organization.CreateDepartment;
+using Fluy.Application.Queries.Organization.GetAllBranches;
+using Fluy.Application.Queries.Organization.GetBranchesByCompany;
+using Fluy.Application.Queries.Organization.GetCompanies;
+using Fluy.Application.Queries.Organization.GetDepartmentsByBranch;
 using Fluy.SharedKernel.Dispatching;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Fluy.Api.Models.Requests;
 
 namespace Fluy.Api.Controllers;
 
@@ -17,9 +19,6 @@ namespace Fluy.Api.Controllers;
 [Authorize]
 public class OrganizationController(ISender sender) : ControllerBase
 {
-    public record CreateCompanyBody(string Name, string? LegalIdentifier);
-    public record CreateBranchBody(string Name);
-    public record CreateDepartmentBody(string Name);
 
     [HttpPost("companies")]
     public async Task<ActionResult<CreateCompanyResult>> CreateCompany(CreateCompanyBody body, CancellationToken cancellationToken)

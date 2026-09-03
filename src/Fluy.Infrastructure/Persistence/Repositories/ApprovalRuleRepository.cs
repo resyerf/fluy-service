@@ -1,7 +1,8 @@
-using Fluy.Application.Common.Interfaces.Repositories;
-using Fluy.Application.Rules.GetApprovalRule;
-using Fluy.Domain.Rules;
+using Fluy.Application.Interfaces.Repositories;
+using Fluy.Application.DTOs;
+using Fluy.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Fluy.Infrastructure.Persistence.Context;
 
 namespace Fluy.Infrastructure.Persistence.Repositories;
 

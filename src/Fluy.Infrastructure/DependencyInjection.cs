@@ -1,12 +1,11 @@
-using Fluy.Application.Common.Interfaces;
-using Fluy.Application.Common.Interfaces.Repositories;
-using Fluy.Infrastructure.Identity;
-using Fluy.Infrastructure.Notifications;
-using Fluy.Infrastructure.PlatformAccess;
+using Fluy.Application.Interfaces.Services;
+using Fluy.Application.Interfaces.Repositories;
+using Fluy.Infrastructure.Identity.Services;
+using Fluy.Infrastructure.External.Services;
 using Fluy.Infrastructure.Persistence;
+using Fluy.Infrastructure.Persistence.Context;
 using Fluy.Infrastructure.Persistence.Interceptors;
 using Fluy.Infrastructure.Persistence.Repositories;
-using Fluy.Infrastructure.Tenancy;
 using Fluy.SharedKernel;
 using Fluy.SharedKernel.Dispatching;
 using Fluy.SharedKernel.Security;

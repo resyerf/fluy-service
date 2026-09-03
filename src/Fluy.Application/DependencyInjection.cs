@@ -1,7 +1,6 @@
 using System.Reflection;
-using Fluy.Application.Approvals;
-using Fluy.Application.Common.Interfaces;
-using Fluy.Application.Notifications;
+using Fluy.Application.Services;
+using Fluy.Application.Interfaces.Services;
 using Fluy.SharedKernel.Dispatching;
 using Microsoft.Extensions.DependencyInjection;
 

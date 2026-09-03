@@ -1,14 +1,16 @@
 using Fluy.Application.Common.Exceptions;
-using Fluy.Application.Identity.AssignRole;
-using Fluy.Application.Identity.CreateRole;
-using Fluy.Application.Identity.CreateUser;
-using Fluy.Application.Identity.GetMyBranches;
-using Fluy.Application.Identity.GetPermissionCatalog;
-using Fluy.Application.Identity.GetRoles;
-using Fluy.Application.Identity.GetUsers;
+using Fluy.Application.Commands.Identity.AssignRole;
+using Fluy.Application.DTOs;
+using Fluy.Application.Commands.Identity.CreateRole;
+using Fluy.Application.Commands.Identity.CreateUser;
+using Fluy.Application.Queries.Identity.GetMyBranches;
+using Fluy.Application.Queries.Identity.GetPermissionCatalog;
+using Fluy.Application.Queries.Identity.GetRoles;
+using Fluy.Application.Queries.Identity.GetUsers;
 using Fluy.SharedKernel.Dispatching;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Fluy.Api.Models.Requests;
 
 namespace Fluy.Api.Controllers;
 
@@ -22,9 +24,6 @@ namespace Fluy.Api.Controllers;
 [Authorize]
 public class IdentityAdminController(ISender sender) : ControllerBase
 {
-    public record CreateUserBody(string Email, string FullName);
-    public record CreateRoleBody(string Name, IReadOnlyCollection<string> PermissionCodes);
-    public record AssignRoleBody(Guid UserId, Guid RoleId, Guid? BranchId, Guid? DepartmentId);
 
     [HttpGet("users")]
     public async Task<ActionResult<IReadOnlyCollection<UserDetail>>> GetUsers(CancellationToken cancellationToken)

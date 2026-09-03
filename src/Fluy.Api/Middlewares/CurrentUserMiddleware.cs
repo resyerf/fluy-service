@@ -1,8 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Fluy.Application.Common.Interfaces;
+using Fluy.Application.Interfaces.Services;
 
-namespace Fluy.Api.Middleware;
+namespace Fluy.Api.Middlewares;
 
 /// <summary>
 /// Traduce los claims del JWT ya validado por UseAuthentication a ICurrentUserService.

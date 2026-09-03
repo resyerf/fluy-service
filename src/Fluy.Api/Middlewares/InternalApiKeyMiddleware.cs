@@ -1,4 +1,4 @@
-namespace Fluy.Api.Middleware;
+namespace Fluy.Api.Middlewares;
 
 /// <summary>
 /// Autenticación servicio-a-servicio (CODE.md §10-D14, elegida: API key compartida). Protege

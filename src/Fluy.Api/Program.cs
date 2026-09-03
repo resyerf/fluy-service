@@ -1,5 +1,5 @@
 using System.Text;
-using Fluy.Api.Middleware;
+using Fluy.Api.Middlewares;
 using Fluy.Application;
 using Fluy.Infrastructure;
 using Fluy.Infrastructure.Persistence;

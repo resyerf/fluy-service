@@ -1,11 +1,13 @@
 using Fluy.Application.Common.Exceptions;
-using Fluy.Application.Requests.CreateRequest;
-using Fluy.Application.Requests.GetMyRequests;
-using Fluy.Application.Requests.GetRequestById;
-using Fluy.Application.Requests.SubmitRequest;
+using Fluy.Application.Commands.Requests.CreateRequest;
+using Fluy.Application.DTOs;
+using Fluy.Application.Queries.Requests.GetMyRequests;
+using Fluy.Application.Queries.Requests.GetRequestById;
+using Fluy.Application.Commands.Requests.SubmitRequest;
 using Fluy.SharedKernel.Dispatching;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Fluy.Api.Models.Requests;
 
 namespace Fluy.Api.Controllers;
 
@@ -14,10 +16,6 @@ namespace Fluy.Api.Controllers;
 [Authorize]
 public class RequestsController(ISender sender) : ControllerBase
 {
-    public record CreateRequestFieldDto(string Key, string Value);
-
-    public record CreateRequestBody(
-        string Title, string Description, decimal? Amount, IReadOnlyCollection<CreateRequestFieldDto>? Fields, Guid? BranchId);
 
     [HttpPost]
     public async Task<ActionResult<CreateRequestResult>> Create(CreateRequestBody body, CancellationToken cancellationToken)

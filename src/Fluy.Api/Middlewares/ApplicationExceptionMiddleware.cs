@@ -1,7 +1,7 @@
 using Fluy.Application.Common.Exceptions;
 using FluentValidation;
 
-namespace Fluy.Api.Middleware;
+namespace Fluy.Api.Middlewares;
 
 /// <summary>
 /// Traduce las excepciones que puede lanzar el Dispatcher compartido (Fluy.SharedKernel) antes de

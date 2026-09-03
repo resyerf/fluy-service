@@ -1,11 +1,13 @@
-using Fluy.Application.Approvals.ApproveRequest;
-using Fluy.Application.Approvals.GetPendingApprovals;
-using Fluy.Application.Approvals.RejectRequest;
-using Fluy.Application.Approvals.RequestCorrection;
+using Fluy.Application.Commands.Approvals.ApproveRequest;
+using Fluy.Application.DTOs;
+using Fluy.Application.Queries.Approvals.GetPendingApprovals;
+using Fluy.Application.Commands.Approvals.RejectRequest;
+using Fluy.Application.Commands.Approvals.RequestCorrection;
 using Fluy.Application.Common.Exceptions;
 using Fluy.SharedKernel.Dispatching;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Fluy.Api.Models.Requests;
 
 namespace Fluy.Api.Controllers;
 
@@ -14,7 +16,6 @@ namespace Fluy.Api.Controllers;
 [Authorize]
 public class ApprovalsController(ISender sender) : ControllerBase
 {
-    public record DecisionBody(string? Comment);
 
     [HttpGet("pending")]
     public async Task<ActionResult<IReadOnlyCollection<PendingApprovalSummary>>> GetPending(

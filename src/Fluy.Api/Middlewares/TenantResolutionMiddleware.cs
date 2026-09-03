@@ -1,6 +1,6 @@
-using Fluy.Application.Common.Interfaces;
+using Fluy.Application.Interfaces.Services;
 
-namespace Fluy.Api.Middleware;
+namespace Fluy.Api.Middlewares;
 
 /// <summary>
 /// Única puerta de entrada del tenant al resto del sistema (CODE.md §4.6). Resuelve el subdominio

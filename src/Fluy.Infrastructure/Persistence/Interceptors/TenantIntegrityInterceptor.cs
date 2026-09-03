@@ -1,4 +1,4 @@
-using Fluy.Application.Common.Interfaces;
+using Fluy.Application.Interfaces.Services;
 using Fluy.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;

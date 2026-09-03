@@ -1,4 +1,4 @@
-using Fluy.Domain.Identity;
+using Fluy.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

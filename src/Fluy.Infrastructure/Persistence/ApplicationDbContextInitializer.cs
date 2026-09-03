@@ -1,6 +1,7 @@
-using Fluy.Domain.Identity;
+using Fluy.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Fluy.Infrastructure.Persistence.Context;
 
 namespace Fluy.Infrastructure.Persistence;
 

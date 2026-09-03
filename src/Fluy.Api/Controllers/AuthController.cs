@@ -1,10 +1,12 @@
 using Fluy.Application.Common.Exceptions;
-using Fluy.Application.Common.Interfaces;
-using Fluy.Application.Identity.Login;
-using Fluy.Application.Identity.SetPassword;
+using Fluy.Application.DTOs;
+using Fluy.Application.Interfaces.Services;
+using Fluy.Application.Commands.Identity.Login;
+using Fluy.Application.Commands.Identity.SetPassword;
 using Fluy.SharedKernel.Dispatching;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Fluy.Api.Models.Requests;
 
 namespace Fluy.Api.Controllers;
 
@@ -12,8 +14,6 @@ namespace Fluy.Api.Controllers;
 [Route("api/v1/auth")]
 public class AuthController(ISender sender) : ControllerBase
 {
-    public record LoginRequest(string Email, string Password);
-    public record SetPasswordRequest(string Token, string NewPassword);
 
     [HttpPost("login")]
     [AllowAnonymous]
