@@ -48,6 +48,16 @@ public class User : AggregateRoot, ITenantEntity, IAuditableEntity
         };
     }
 
+    public void Rename(string fullName)
+    {
+        if (string.IsNullOrWhiteSpace(fullName))
+        {
+            throw new ArgumentException("El nombre del usuario es obligatorio.", nameof(fullName));
+        }
+
+        FullName = fullName.Trim();
+    }
+
     public void ChangePassword(string newPasswordHash)
     {
         if (string.IsNullOrWhiteSpace(newPasswordHash))
