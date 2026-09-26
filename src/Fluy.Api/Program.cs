@@ -58,7 +58,7 @@ const string CorsPolicy = "FluyWebCors";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(CorsPolicy, policy => policy
-        .WithOrigins("http://localhost:4200", "https://www.fluy.resyerf.com")
+        .WithOrigins("http://localhost:4200", "https://www.fluy.resyerf.com", "https://fluy.resyerf.com")
         .AllowAnyHeader()
         .AllowAnyMethod());
 });
