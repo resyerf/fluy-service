@@ -6,6 +6,7 @@ using Fluy.Infrastructure.Persistence;
 using Fluy.SharedKernel.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,19 +34,39 @@ builder.Services
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
-// CORS de desarrollo: permite que fluy-web (Angular dev server, otro puerto) llame a esta API
-// desde el navegador. Una política de producción real (orígenes por dominio de tenant) queda
-// pendiente de definir junto con el despliegue — CLAUDE.md §41 (*.fluy.com).
-const string DevCorsPolicy = "DevCors";
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "FLUY Service", Version = "v1" });
+
+    var bearerScheme = new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+    };
+    options.AddSecurityDefinition("Bearer", bearerScheme);
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement { { bearerScheme, Array.Empty<string>() } });
+});
+
+// Permite que fluy-web (dev server local y el dominio real desplegado) llame a esta API desde el
+// navegador. Orígenes por dominio de tenant (*.fluy.resyerf.com) quedan pendientes — CLAUDE.md §41.
+const string CorsPolicy = "FluyWebCors";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(DevCorsPolicy, policy => policy
-        .WithOrigins("http://localhost:4200")
+    options.AddPolicy(CorsPolicy, policy => policy
+        .WithOrigins("http://localhost:4200", "https://www.fluy.resyerf.com")
         .AllowAnyHeader()
         .AllowAnyMethod());
 });
 
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 if (app.Environment.IsDevelopment())
 {
@@ -57,7 +78,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors(DevCorsPolicy);
+app.UseCors(CorsPolicy);
 
 app.UseMiddleware<ApplicationExceptionMiddleware>();
 app.UseMiddleware<InternalApiKeyMiddleware>();
